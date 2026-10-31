@@ -1,0 +1,11 @@
+Microsoft just published in Science that their AI got hard medical cases right 83% of the time. Generalist doctors, with textbooks and internet access, got 36%.
+
+Everyone will share this as "AI beats doctors." That's not the interesting part.
+
+The interesting part is how it works. It doesn't answer in one shot. It acts like a panel: one agent proposes a diagnosis, another argues against it, another asks whether the next test is worth the cost. Then it orders tests one at a time, the way a real doctor would.
+
+That's the pattern I keep seeing everywhere right now. The big jumps aren't coming from one smarter model. They're coming from models arguing with each other.
+
+The caveats are real. Text-only cases, no physical exams, compared against generalists not specialists, and no live patients yet. A prospective study with Beth Israel in Boston is next.
+
+If that one holds up, the first place this lands isn't replacing doctors. It's the rural clinic with no specialist within 200 miles.

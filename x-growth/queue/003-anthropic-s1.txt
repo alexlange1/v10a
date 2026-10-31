@@ -1,0 +1,16 @@
+Anthropic's S-1 is the most interesting startup document of the year.
+
+Revenue:
+2023: $41M
+2024: $386M
+2025: $4.6B
+First half of 2026 alone: $16.3B
+
+The scary-looking $80.7B net loss? Around $72B of it is an accounting effect from their own valuation going up. Q2 was their first operating profit, roughly $974M.
+
+Two things I'd take from it as a founder:
+
+1. "AI companies can't make money" aged badly. Fast.
+2. About 20% of revenue comes from two customers. Even at this scale, concentration risk doesn't go away.
+
+Every company is a private startup until the S-1. Then everyone gets to read the diary.
