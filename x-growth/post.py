@@ -5,6 +5,8 @@ Usage:
   post.py [--dry-run] [--reply-to TWEET_ID] FILE
   post.py --next [--dry-run]     # post the first file in queue/, move it to posted/
 
+A PNG/JPG in media/ with the same name as the queued .txt is attached automatically.
+
 Env: X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN, X_ACCESS_TOKEN_SECRET
 """
 import base64, hashlib, hmac, json, os, secrets, shutil, sys, time, urllib.parse, urllib.request
@@ -12,6 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 URL = "https://api.x.com/2/tweets"
+UPLOAD_URL = "https://api.x.com/2/media/upload"
 HERE = Path(__file__).resolve().parent
 
 
@@ -40,8 +43,34 @@ def auth_header(method, url):
     return "OAuth " + ", ".join(f'{q(k)}="{q(v)}"' for k, v in sorted(oauth.items()))
 
 
-def post(text, reply_to=None, dry_run=False):
+def upload(image):
+    # Multipart bodies are not part of the OAuth 1.0a signature, same as JSON.
+    boundary = secrets.token_hex(16)
+    data = b"".join([
+        f"--{boundary}\r\nContent-Disposition: form-data; name=\"media_category\"\r\n\r\ntweet_image\r\n".encode(),
+        f"--{boundary}\r\nContent-Disposition: form-data; name=\"media\"; filename=\"{image.name}\"\r\n"
+        f"Content-Type: application/octet-stream\r\n\r\n".encode(),
+        image.read_bytes(),
+        f"\r\n--{boundary}--\r\n".encode(),
+    ])
+    req = urllib.request.Request(UPLOAD_URL, data=data, method="POST", headers={
+        "Authorization": auth_header("POST", UPLOAD_URL), "Content-Type": f"multipart/form-data; boundary={boundary}"})
+    try:
+        with urllib.request.urlopen(req) as r:
+            return json.load(r)["data"]["id"]
+    except urllib.error.HTTPError as e:
+        sys.exit(f"X media upload error {e.code}: {e.read().decode()}")
+
+
+def find_media(path):
+    return next((p for ext in ("png", "jpg", "jpeg") if (p := HERE / "media" / f"{path.stem}.{ext}").exists()), None)
+
+
+def post(text, reply_to=None, dry_run=False, image=None):
     body = {"text": text}
+    if image:
+        print(f"attaching {image.name}", file=sys.stderr)
+        body["media"] = {"media_ids": ["<uploaded>" if dry_run else upload(image)]}
     if reply_to:
         body["reply"] = {"in_reply_to_tweet_id": reply_to}
     if len(text) > 280:
@@ -78,7 +107,7 @@ def main(argv):
         path = Path(argv[0])
     else:
         sys.exit(__doc__)
-    tweet_id = post(path.read_text().strip(), reply_to, dry_run)
+    tweet_id = post(path.read_text().strip(), reply_to, dry_run, find_media(path))
     if tweet_id and path.parent == HERE / "queue":
         stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M")
         shutil.move(path, HERE / "posted" / f"{stamp}-{tweet_id}-{path.name}")
