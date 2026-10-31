@@ -46,3 +46,9 @@ fig, ax = frame("Hard diagnostic cases solved correctly",
                 "Source: Microsoft AI, Science, Oct 22 2026. Text-only cases, generalist physicians, not live patients.")
 bars(ax, ["Microsoft MAI-DxO", "Generalist doctors"], [83.2, 36.1], [BLUE, GRAY], ["83%", "36%"], 100)
 fig.savefig(OUT / "001-microsoft-diagnosis.png", facecolor=SURFACE)
+
+fig, ax = frame("Where the world's venture money went, Q3 2026",
+                "AI took 64% of all global venture funding",
+                "Source: Crunchbase, Q3 2026. Global venture funding totaled $159B.")
+bars(ax, ["AI startups", "Everything else"], [102, 57], [BLUE, GRAY], ["$102B", "$57B"], 102)
+fig.savefig(OUT / "007-vc-share.png", facecolor=SURFACE)

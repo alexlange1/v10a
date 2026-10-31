@@ -1,0 +1,5 @@
+People still dismiss AI startups as "just a wrapper."
+
+Salesforce was a wrapper around a database. Uber was a wrapper around GPS and payments. Most great companies wrap something.
+
+The only question that matters: would customers be upset if you disappeared tomorrow?

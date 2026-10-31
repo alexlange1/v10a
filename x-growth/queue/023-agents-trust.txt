@@ -1,0 +1,3 @@
+Everyone is building agents. Very few are building what agents actually need to be trusted with real work: permissions, audit logs, undo buttons, a human to call when it goes wrong.
+
+The picks and shovels of this cycle might be boring trust infrastructure.

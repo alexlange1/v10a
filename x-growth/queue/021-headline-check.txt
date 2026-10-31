@@ -1,0 +1,9 @@
+A rule I use for AI headlines.
+
+When it says "AI beats doctors / lawyers / coders," check three things:
+
+Who was it compared against?
+Was it real-world use or a test set?
+Who ran the study?
+
+Most headlines survive one of those questions. Very few survive all three.

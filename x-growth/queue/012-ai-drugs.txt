@@ -1,0 +1,11 @@
+Uncomfortable fact about AI drug discovery: there still isn't a single approved drug that was discovered mainly by AI.
+
+The data underneath is more interesting than either the hype or the cynicism.
+
+AI-designed molecules pass Phase 1 trials 80 to 90% of the time. That's far above the historical average. Phase 1 mostly asks "is this safe?"
+
+Phase 2 asks "does it actually work?" There, AI-discovered drugs succeed about 40% of the time. Roughly the same as everyone else.
+
+So AI got very good at designing molecules the body tolerates. It hasn't yet gotten better at picking the right biology to go after.
+
+That second problem is the big one. And I doubt it gets solved by a better chemistry model alone.

@@ -1,0 +1,5 @@
+Per-seat pricing doesn't make sense for AI products.
+
+If your product lets one person do the work of five, charging per seat means you earn less the better you get.
+
+The companies that figure out pricing on outcomes instead of logins are going to eat the ones that don't.
