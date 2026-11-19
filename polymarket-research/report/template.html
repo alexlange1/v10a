@@ -1,0 +1,476 @@
+<title>Polymarket Steady Climbers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: research memo. 1080px figure band, 68ch reading column; the strategy card is the one boxed object. */
+:root {
+  --bg: #f4f6f5; --surface: #fcfcfb; --ink: #12171c; --ink-2: #4a535c; --muted: #7d858d;
+  --rule: #dfe3e1; --grid: #e7eae8; --chip: #e9edeb;
+  --s1: #2a78d6; --s1-wash: rgba(42, 120, 214, .10); --s2: #eb6834;
+  --neg: #d03b3b; --neg-wash: rgba(208, 59, 59, .14); --pos-wash: rgba(42, 120, 214, .14); --good-text: #006300;
+  --f-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --f-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1214; --surface: #151a1d; --ink: #edf0f1; --ink-2: #b6bdc4; --muted: #858d95;
+    --rule: #283035; --grid: #20272b; --chip: #1f262a;
+    --s1: #3987e5; --s1-wash: rgba(57, 135, 229, .14); --s2: #d95926;
+    --neg: #e66767; --neg-wash: rgba(230, 103, 103, .18); --pos-wash: rgba(57, 135, 229, .20); --good-text: #0ca30c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1214; --surface: #151a1d; --ink: #edf0f1; --ink-2: #b6bdc4; --muted: #858d95;
+  --rule: #283035; --grid: #20272b; --chip: #1f262a;
+  --s1: #3987e5; --s1-wash: rgba(57, 135, 229, .14); --s2: #d95926;
+  --neg: #e66767; --neg-wash: rgba(230, 103, 103, .18); --pos-wash: rgba(57, 135, 229, .20); --good-text: #0ca30c;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--f-body); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 48px 96px; display: grid; gap: 72px; }
+section { display: grid; gap: 20px; min-width: 0; }
+.prose { max-width: 68ch; display: grid; gap: 14px; }
+.prose p, .prose li { color: var(--ink-2); }
+.prose strong { color: var(--ink); font-weight: 600; }
+h1, h2, h3 { font-family: var(--f-display); color: var(--ink); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(34px, 6vw, 56px); line-height: 1.04; font-weight: 700; }
+h2 { font-size: clamp(24px, 3.4vw, 32px); line-height: 1.15; font-weight: 600; }
+h3 { font-size: 18px; font-weight: 600; line-height: 1.3; }
+p { margin: 0; }
+.eyebrow { font: 500 12px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
+.dek { font-size: 19px; line-height: 1.55; color: var(--ink-2); max-width: 62ch; }
+.mono { font-family: var(--f-mono); }
+.figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px 28px; border-top: 1px solid var(--rule); padding-top: 22px; }
+.fig .v { font: 600 30px/1.1 var(--f-display); color: var(--ink); }
+.fig .l { color: var(--ink-2); font-size: 14px; line-height: 1.45; margin-top: 6px; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; padding: 28px; display: grid; gap: 18px; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px 32px; margin: 0; padding: 0; list-style: none; }
+.rules li { display: grid; gap: 4px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.rules .k { font: 500 12px/1.2 var(--f-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.rules .t { color: var(--ink); font-weight: 500; }
+.warn { display: flex; gap: 12px; align-items: flex-start; color: var(--ink-2); font-size: 15px; border-top: 1px solid var(--rule); padding-top: 16px; }
+.warn svg { flex: none; margin-top: 3px; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(156px, 1fr)); gap: 10px; }
+.spark { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 10px 10px 8px; display: grid; gap: 4px; min-width: 0; }
+.spark .n { font: 500 12px/1.3 var(--f-mono); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.spark .g { font-size: 12px; color: var(--ink-2); display: flex; justify-content: space-between; gap: 6px; }
+.spark svg { width: 100%; height: 54px; display: block; }
+.chip { display: inline-block; font: 500 11px/1.5 var(--f-body); color: var(--ink-2); background: var(--chip); border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { font: 500 12px/1.3 var(--f-body); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td .sub { display: block; color: var(--muted); font-size: 12.5px; }
+.bar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; background: var(--s1); vertical-align: middle; }
+.funnel { display: grid; gap: 2px; }
+.frow { display: grid; grid-template-columns: minmax(0, 1fr) 96px 160px; gap: 14px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--grid); }
+.frow:last-child { border-bottom: 0; }
+.frow .lab { color: var(--ink-2); font-size: 14.5px; min-width: 0; }
+.frow .cnt { text-align: right; font: 500 15px/1 var(--f-mono); color: var(--ink); font-variant-numeric: tabular-nums; }
+.meter { position: relative; height: 8px; background: var(--grid); border-radius: 4px; }
+.meter i { position: absolute; inset: 0 auto 0 0; background: var(--s1); border-radius: 4px; }
+.meter + small { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
+.frow.last .lab, .frow.last .cnt { color: var(--ink); font-weight: 600; }
+.chart { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 16px 8px; position: relative; min-width: 0; }
+.chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.chart text { fill: var(--muted); font: 400 11.5px var(--f-body); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); padding: 0 4px 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend i { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; color: var(--ink); box-shadow: 0 6px 18px rgba(0,0,0,.12); white-space: nowrap; z-index: 5; }
+.tip b { font-weight: 600; }
+.tip .row { display: flex; align-items: center; gap: 7px; color: var(--ink-2); }
+.tip .row i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.tile { border-top: 1px solid var(--rule); padding-top: 12px; }
+.tile .v { font: 600 24px/1.15 var(--f-display); color: var(--ink); }
+.tile .l { font-size: 13px; color: var(--ink-2); margin-top: 4px; line-height: 1.4; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; align-items: start; }
+.steps { counter-reset: s; display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; max-width: 76ch; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; color: var(--ink-2); }
+.steps li::before { content: counter(s); font: 600 14px/28px var(--f-mono); color: var(--ink); width: 28px; height: 28px; text-align: center; border: 1px solid var(--rule); border-radius: 50%; background: var(--surface); }
+.steps li strong { color: var(--ink); font-weight: 600; }
+.neg { color: var(--neg); }
+.pos { color: var(--good-text); }
+details { color: var(--ink-2); font-size: 14px; }
+summary { cursor: pointer; color: var(--ink); font-weight: 500; }
+summary:focus-visible, a:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; border-radius: 4px; }
+a { color: var(--s1); }
+ul.plain { margin: 0; padding-left: 18px; display: grid; gap: 8px; color: var(--ink-2); }
+.foot { color: var(--muted); font-size: 13px; border-top: 1px solid var(--rule); padding-top: 18px; display: grid; gap: 8px; }
+@media (max-width: 560px) {
+  .frow { grid-template-columns: minmax(0, 1fr) 70px; }
+  .frow .m { grid-column: 1 / -1; }
+  .card { padding: 20px; }
+}
+@media (prefers-reduced-motion: no-preference) { .spark { transition: border-color .15s; } .spark:hover { border-color: var(--s1); } }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:22px">
+    <div class="eyebrow">Polymarket research · data through 19 Nov 2026</div>
+    <h1>Polymarket Steady Climbers</h1>
+    <p class="dek">I scanned 149,451 Polymarket wallets for P&amp;L charts like yours: a steady climb, no big drawdowns. 543 qualified. This page shows what those traders actually do, which "copy them" ideas fail when tested on the whole market, and the one boring rule set that held up in both halves of the year.</p>
+    <div class="figs" id="figs"></div>
+  </header>
+
+  <section aria-labelledby="h-answer">
+    <div class="card">
+      <div class="eyebrow">The strategy</div>
+      <h2 id="h-answer">Deadline Fade: bet that the deadline passes quietly</h2>
+      <p style="color:var(--ink-2);max-width:70ch">Most "Will X happen by &lt;date&gt;?" markets end with nothing happening. When the quiet side trades at 95–98¢ with one to four weeks left, it has paid slightly more than its price implies, in both halves of the last year. Each trade earns a little; spread across many small positions, it builds the kind of curve you showed.</p>
+      <ul class="rules" id="rules"></ul>
+      <div class="warn"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 15 14H1z" fill="none" stroke="var(--neg)" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6v3.6M8 11.4v.1" stroke="var(--neg)" stroke-width="1.6" stroke-linecap="round"/></svg><span><strong style="color:var(--ink)">Expect modest returns, not a fortune.</strong> The backtest made about 9% a year with limit orders (about 6% paying the spread and fees), with a worst drawdown near 2%. One loss wipes out about 27 wins, so position size is the whole game.</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-gallery">
+    <div class="eyebrow">Find</div>
+    <h2 id="h-gallery">36 of the 543 charts</h2>
+    <div class="prose"><p>Real 12-month P&amp;L curves (position P&amp;L plus rebates and rewards), up to eight per strategy type, ranked by steadiness. Usernames are their public Polymarket names.</p></div>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <section aria-labelledby="h-funnel">
+    <div class="eyebrow">Find</div>
+    <h2 id="h-funnel">How 543 were picked from 149,451</h2>
+    <div class="prose"><p>Wallets came from 25 leaderboard lists (profit and volume, week to all-time, overall and each of 10 categories), read up to 100,000 ranks deep. Each rule below is applied to the remaining wallets. The biggest drop is "still trading": most profitable wallets from the past year have stopped.</p></div>
+    <div class="funnel" id="funnel"></div>
+  </section>
+
+  <section aria-labelledby="h-arch">
+    <div class="eyebrow">Study</div>
+    <h2 id="h-arch">What the 543 actually do</h2>
+    <div class="prose"><p>I pulled 956,239 of their positions plus their last 3,000 trades each, tagged every market, and sorted each trader into one style. The largest group is the boring one: <strong>buying outcomes priced around 90–99¢ shortly before they resolve</strong>. Market makers are second and earn the most in total.</p></div>
+    <div class="tbl-wrap"><table id="arch"></table></div>
+  </section>
+
+  <section aria-labelledby="h-persist">
+    <div class="eyebrow">Test</div>
+    <h2 id="h-persist">A steady chart does predict more profit</h2>
+    <div class="prose"><p>I picked steady climbers using only the first half of the year (Nov 2025 – May 2026), then looked at the second half. The pick still beats equally profitable but bumpy traders, so these curves reflect a real edge rather than luck. Profits do shrink: the median trader kept about a third of the earlier pace.</p></div>
+    <div class="tbl-wrap"><table id="persist"></table></div>
+  </section>
+
+  <section aria-labelledby="h-fail">
+    <div class="eyebrow">Test</div>
+    <h2 id="h-fail">Three shortcuts that lose money</h2>
+    <div class="prose"><p>Before building a strategy, I tested the obvious ways to copy these traders on every market that resolved in the last year, using realistic fills (half a tick + 0.2¢ slippage) and the fee schedule that starts on 20 November.</p></div>
+    <div class="two">
+      <div style="display:grid;gap:12px;min-width:0">
+        <h3>1 · Buying favourites at 90–99¢</h3>
+        <p style="color:var(--ink-2);font-size:15px">132,586 markets, first time the favourite enters each price band within 3 days of its end date. Favourites win <em>less</em> often than their price implies.</p>
+        <div class="tbl-wrap"><table id="favs"></table></div>
+      </div>
+      <div style="display:grid;gap:12px;min-width:0">
+        <h3>2 · Copying the steady wallets</h3>
+        <p style="color:var(--ink-2);font-size:15px">Wallets chosen as steady on the first half only; their second-half positions copied at the price one hour after they bought.</p>
+        <div class="tiles" id="copytiles"></div>
+        <h3 style="margin-top:8px">3 · Stop-losses</h3>
+        <p style="color:var(--ink-2);font-size:15px">Selling when the favourite falls below a level made every version of the strategy worse. Scares usually pass, and a stop sells at the worst price.</p>
+        <div class="tbl-wrap"><table id="stops"></table></div>
+      </div>
+    </div>
+    <div class="prose"><p><strong>So how do the bond buyers win?</strong> Two ways a price chart can't show. About a third of their money goes in <strong>after</strong> the event's scheduled end, at ~99.5¢, once they have checked the official result (99–100% won). The biggest slice is <strong>"nothing ever happens" bets</strong> placed weeks before a deadline, such as "Trump out by June 30?" No at 96¢. That second slice is the part that can be turned into rules, and that is the strategy below.</p></div>
+  </section>
+
+  <section aria-labelledby="h-rules">
+    <div class="eyebrow">Strategy</div>
+    <h2 id="h-rules">The rulebook</h2>
+    <ol class="steps" id="steps"></ol>
+  </section>
+
+  <section aria-labelledby="h-bt">
+    <div class="eyebrow">Strategy</div>
+    <h2 id="h-bt">Backtest: 12 months, $10,000 start</h2>
+    <div class="prose"><p>Every binary deadline market that resolved between Nov 2025 and Nov 2026 with at least $25k volume (1,834 qualifying trades). Positions are 0.5% of the account, at most three per event, held to resolution. The line is the median of 60 runs with random same-day order. The rules were also checked separately on each half of the year.</p></div>
+    <div class="tiles" id="bttiles"></div>
+    <div class="chart" id="equity"><div class="legend"><span><i style="background:var(--s1)"></i>Limit orders (maker, no fee)</span><span><i style="background:var(--s2)"></i>Market orders (taker, spread + fee)</span></div></div>
+    <div class="two">
+      <div style="display:grid;gap:10px;min-width:0">
+        <h3>Monthly return (limit orders)</h3>
+        <div class="chart" id="monthly"></div>
+      </div>
+      <div style="display:grid;gap:10px;min-width:0">
+        <h3>By category</h3>
+        <div class="tbl-wrap"><table id="cats"></table></div>
+      </div>
+    </div>
+    <details><summary>Show the equity curve as a table</summary><div class="tbl-wrap" style="margin-top:10px"><table id="eqtable"></table></div></details>
+  </section>
+
+  <section aria-labelledby="h-today">
+    <div class="eyebrow">Strategy</div>
+    <h2 id="h-today">Today's candidates</h2>
+    <div class="prose"><p>Output of <span class="mono">scanner.py</span> on 19 Nov 2026, for a $10,000 account ($50 per market). Prices move; run the scanner yourself before placing anything, and read each market's rules first. Note that four of these share one story (Iran), so the per-theme limit applies.</p></div>
+    <div class="tbl-wrap"><table id="today"></table></div>
+  </section>
+
+  <section aria-labelledby="h-fees">
+    <div class="eyebrow">Strategy</div>
+    <h2 id="h-fees">Fees change on 20 November</h2>
+    <div class="prose"><p>Takers pay <span class="mono">shares × rate × p × (1 − p)</span>; makers pay nothing. On a 96¢ buy, a 5% rate costs about 0.2% of the stake and a 1% rate about 0.04%. Small makers lose rebates under the new tiers, but liquidity rewards stay. Source: Polymarket fee docs, gathered from search extracts; check the live page before trading.</p></div>
+    <div class="tbl-wrap"><table id="fees"></table></div>
+  </section>
+
+  <section aria-labelledby="h-risk">
+    <div class="eyebrow">Strategy</div>
+    <h2 id="h-risk">Risks, and when to stop</h2>
+    <div class="prose"><ul class="plain" id="risks"></ul></div>
+  </section>
+
+  <section aria-labelledby="h-more">
+    <div class="eyebrow">Next</div>
+    <h2 id="h-more">Two upgrades the steadiest traders use</h2>
+    <div class="two" id="more"></div>
+  </section>
+
+  <section aria-labelledby="h-method">
+    <div class="eyebrow">Method</div>
+    <h2 id="h-method">How this was done</h2>
+    <div class="prose" id="method"></div>
+    <div class="foot"><p>Not financial advice. Polymarket's international site is not available to US residents. Backtests use one year of history and cannot capture every execution detail, and past results do not guarantee future ones. Code and data files are in the <span class="mono">polymarket-research/</span> folder of the repository.</p></div>
+  </section>
+</div>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+(function () {
+  const D = JSON.parse(document.getElementById("data").textContent);
+  const $ = (id) => document.getElementById(id);
+  const fmt$ = (v) => (v >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : v >= 1e3 ? "$" + Math.round(v / 1e3) + "k" : "$" + Math.round(v));
+  const pct = (v, d = 1) => (v * 100).toFixed(d) + "%";
+  const sgn = (v, d = 2) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(d);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const F = D.final;
+
+  // headline figures
+  const figs = [
+    ["149,451", "wallets scanned from 25 leaderboard lists"],
+    ["543", "steady climbers found (0.36%)"],
+    ["81%", "of first-half steady traders stayed profitable in the second half, vs 52% of bumpy ones"],
+    ["+" + pct(F.cagr_maker, 1) + "/yr", "Deadline Fade backtest with limit orders, worst drawdown " + pct(F.maxdd_maker, 1)],
+  ];
+  $("figs").innerHTML = figs.map(([v, l]) => `<div class="fig"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+
+  // rules card
+  const rules = [
+    ["Markets", "Single yes/no deadline questions (“by &lt;date&gt;”, “in 2026”). Politics, geopolitics, economics, finance, tech, culture, crypto price."],
+    ["Skip", "Sports, esports, weather, crypto up/down, and multi-outcome events (lost money in the test)."],
+    ["Entry", "The likely side (usually No) at 95–98¢, with 7–30 days until the deadline."],
+    ["Order", "Limit order one tick under the ask, never above the midpoint. Makers pay no fee."],
+    ["Size", "0.5% of the account per market, max 1.5% per event, about 5% per story (e.g. Iran)."],
+    ["Exit", "Hold to resolution. No stop-loss."],
+  ];
+  $("rules").innerHTML = rules.map(([k, t]) => `<li><span class="k">${k}</span><span class="t">${t}</span></li>`).join("");
+
+  // gallery
+  const archShort = { "High-probability 'bond' buyer": "Bond buyer", "Market maker / liquidity provider": "Market maker", "Discretionary / event trader": "Event trader",
+    "Sports/esports trader": "Sports", "Weather specialist": "Weather", "Crypto up/down short-term bot": "Crypto bot", "Longshot buyer": "Longshots" };
+  $("gallery").innerHTML = D.gallery.map((g) => {
+    const p = g.pts, n = p.length, lo = Math.min(...p, 0), hi = Math.max(...p), W = 140, H = 54, pad = 4;
+    const x = (i) => pad + (i / (n - 1)) * (W - 2 * pad), y = (v) => H - pad - ((v - lo) / (hi - lo || 1)) * (H - 2 * pad);
+    const line = p.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+    const area = `M${x(0)},${H - pad} L` + p.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" L") + ` L${x(n - 1)},${H - pad} Z`;
+    return `<div class="spark" title="${esc(g.name)}: +${fmt$(g.gain)} in 12 months">
+      <div class="n">${esc(g.name)}</div>
+      <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${esc(g.name)} profit curve, up ${fmt$(g.gain)}">
+        <path d="${area}" fill="var(--s1-wash)"/><polyline points="${line}" fill="none" stroke="var(--s1)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <div class="g"><span class="pos">+${fmt$(g.gain)}</span><span class="chip">${archShort[g.archetype] || g.archetype}</span></div></div>`;
+  }).join("");
+
+  // funnel
+  const fun = D.funnel;
+  $("funnel").innerHTML = fun.map(([lab, c], i) => {
+    const prev = i ? fun[i - 1][1] : c, kept = c / prev;
+    const meter = i ? `<div><div class="meter"><i style="width:${(kept * 100).toFixed(1)}%"></i></div><small>${pct(kept, 0)} of previous step kept</small></div>` : `<div></div>`;
+    return `<div class="frow${i === fun.length - 1 ? " last" : ""}"><div class="lab">${esc(lab).replace(/&gt;=/g, "≥").replace(/&lt;=/g, "≤").replace(/>=/g, "≥").replace(/<=/g, "≤")}</div><div class="cnt">${c.toLocaleString("en-US")}</div><div class="m">${meter}</div></div>`;
+  }).join("");
+
+  // archetypes
+  const order = ["High-probability 'bond' buyer", "Market maker / liquidity provider", "Discretionary / event trader", "Sports/esports trader", "Weather specialist", "Crypto up/down short-term bot", "Longshot buyer"];
+  const desc = {
+    "High-probability 'bond' buyer": "Buys outcomes at ~90–99¢ shortly before they resolve; geopolitics, sports, economics, politics, weather.",
+    "Market maker / liquidity provider": "Quotes both sides; a big share of profit is rewards and rebates. Needs a bot.",
+    "Discretionary / event trader": "News and judgement trades in politics, geopolitics and mentions.",
+    "Sports/esports trader": "Game-time trading near kick-off; likely model-driven.",
+    "Weather specialist": "Temperature-bucket markets, many tiny trades.",
+    "Crypto up/down short-term bot": "5- and 15-minute crypto markets, very high frequency.",
+    "Longshot buyer": "Mostly entries under 30¢.",
+  };
+  const A = Object.fromEntries(D.archetypes.map((a) => [a.archetype, a]));
+  const maxN = Math.max(...D.archetypes.map((a) => a.traders));
+  $("arch").innerHTML = `<thead><tr><th>Style</th><th class="num">Traders</th><th class="num">Median 1Y profit</th><th class="num">Profit per $ traded</th><th class="num">Typical entry</th><th class="num">Trades / day</th><th class="num">Hours entry → close</th></tr></thead><tbody>` +
+    order.filter((k) => A[k]).map((k) => { const a = A[k];
+      return `<tr><td><strong style="color:var(--ink);font-weight:600">${archShort[k]}</strong><span class="sub">${desc[k]}</span></td>
+      <td class="num">${a.traders}<br><span class="bar" style="width:${(a.traders / maxN * 70).toFixed(0)}px" aria-hidden="true"></span></td>
+      <td class="num">${fmt$(a.median_1y_profit)}</td><td class="num">${(a.median_edge_bps / 100).toFixed(1)}%</td>
+      <td class="num">${Math.round(a.median_entry_px * 100)}¢</td><td class="num">${Math.round(a.median_trades_day)}</td><td class="num">${a.median_hours_entry_to_close < 1 ? "<1" : Math.round(a.median_hours_entry_to_close)}</td></tr>`; }).join("") + `</tbody>`;
+
+  // persistence
+  const P = D.persistence;
+  $("persist").innerHTML = `<thead><tr><th>Universe</th><th>Chosen on first half as</th><th class="num">Traders</th><th class="num">Profitable in 2nd half</th><th class="num">Still steady</th><th class="num">Lost more than 1st-half gain</th></tr></thead><tbody>` +
+    P.map((r) => `<tr><td>${r.universe === "all candidates" ? "All 149k candidates" : "Volume leaderboard only (not ranked on profit)"}</td><td>${r.group === "steady in IS" ? "<strong style='color:var(--ink)'>Steady climber</strong>" : "Profitable but bumpy"}</td>
+      <td class="num">${r.n.toLocaleString("en-US")}</td><td class="num">${pct(r.oos_profitable, 0)}</td><td class="num">${pct(r.oos_steady, 0)}</td><td class="num">${pct(r.oos_lost_more_than_is_gain, 1)}</td></tr>`).join("") + `</tbody>`;
+
+  // favourites table with diverging inline bars
+  const favs = D.favourites_72h;
+  const maxAbs = Math.max(...favs.map((r) => Math.abs(r["avg_roi%"])));
+  $("favs").innerHTML = `<thead><tr><th>Price band</th><th class="num">Trades</th><th class="num">Won</th><th class="num">Needed</th><th class="num">Return / trade</th></tr></thead><tbody>` +
+    favs.map((r) => { const w = Math.abs(r["avg_roi%"]) / maxAbs * 56;
+      return `<tr><td class="mono">${r.band.split("-").map((x) => +(parseFloat(x) * 100).toFixed(1)).join("–")}¢</td>
+      <td class="num">${r.trades.toLocaleString("en-US")}</td><td class="num">${r["win%"].toFixed(1)}%</td><td class="num">${r["breakeven_win%"].toFixed(1)}%</td>
+      <td class="num"><span class="neg">${sgn(r["avg_roi%"], 1)}%</span> <span class="bar" style="width:${w.toFixed(0)}px;background:var(--neg)" aria-hidden="true"></span></td></tr>`; }).join("") + `</tbody>`;
+
+  // copy tiles
+  const C = D.copy;
+  $("copytiles").innerHTML = [
+    [sgn(C.roi * 100, 2) + "%", `per trade, ${C.trades.toLocaleString("en-US")} copied entries at 85¢+ outside sports`],
+    [sgn(C.rule_roi_6h * 100, 2) + "%", "per trade when waiting for 2 wallets to agree, entering 6 h later"],
+    [sgn(C.rule_roi_24h * 100, 2) + "%", "same, entering 24 h later. The edge decays with delay"],
+  ].map(([v, l]) => `<div class="tile"><div class="v neg">${v}</div><div class="l">${l}</div></div>`).join("");
+
+  $("stops").innerHTML = `<thead><tr><th>Stop-loss</th><th class="num">Return / trade</th></tr></thead><tbody>` +
+    D.stops.map((s) => `<tr><td>${s.stop === null ? "<strong style='color:var(--ink)'>None (hold to resolution)</strong>" : "Sell if favourite drops below " + Math.round(s.stop * 100) + "¢"}</td><td class="num ${s.roi >= 0 ? "" : "neg"}">${sgn(s.roi * 100, 2)}%</td></tr>`).join("") + `</tbody>`;
+
+  // rulebook steps
+  const steps = [
+    "<strong>Once a day, run the scanner</strong> (<span class='mono'>python3 scanner.py 10000</span>, with your account size). It lists single yes/no deadline markets with $25k+ volume, a 2¢-or-tighter book, the likely side at 95–98¢, and 7–30 days left.",
+    "<strong>Read each market's resolution rules</strong> before buying. Skip anything where the wording is vague, the source is unclear, or something has already started to happen (a meeting scheduled, troops moving, a filing made). The steady bond buyers' main skill is this check.",
+    "<strong>Place a limit order</strong> at the scanner's suggested price: one tick below the ask, never above the midpoint. If it does not fill within a day or two, leave it; do not chase. Makers pay no fee.",
+    "<strong>Size every position at 0.5% of the account</strong>, at most three per event and roughly ten (5%) per running story. With a $10,000 account that is $50 per market and about 100–150 open positions at a time.",
+    "<strong>Hold to resolution.</strong> Do not sell on scares; in the test every stop-loss level lowered returns. Redeem winnings and recycle them into new positions.",
+    "<strong>Keep a simple log</strong> (date, market, price, result). Review monthly against the expected numbers: roughly 98% wins and +1% per trade.",
+  ];
+  $("steps").innerHTML = steps.map((s) => `<li><span>${s}</span></li>`).join("");
+
+  // backtest tiles
+  $("bttiles").innerHTML = [
+    ["+" + pct(F.cagr_maker, 1) + " / yr", "limit orders (median of 60 runs)"],
+    ["+" + pct(F.cagr_taker, 1) + " / yr", "market orders, paying spread and fees"],
+    [pct(F.maxdd_maker, 1), "worst peak-to-trough drop"],
+    [pct(F.win_rate, 1), `of ${F.trades_all.toLocaleString("en-US")} trades won (avg entry ${Math.round(F.avg_entry * 1000) / 10}¢)`],
+    ["+" + pct(F.first_half_annualized, 1) + " · +" + pct(F.second_half_annualized, 1), "first half · second half, each tested alone"],
+    [Math.round(F.median_hold_days) + " days", "median holding time"],
+  ].map(([v, l]) => `<div class="tile"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+
+  // equity chart
+  (function () {
+    const el = $("equity"), dates = F.curve_dates.map((d) => new Date(d + "T00:00:00Z")), M = F.curve_maker, T = F.curve_taker;
+    const W = 1000, H = 340, L = 64, R = 92, Tp = 14, B = 34;
+    const lo = Math.floor(Math.min(...M, ...T) / 100) * 100 - 100, hi = Math.ceil(Math.max(...M, ...T) / 100) * 100 + 100;
+    const t0 = dates[0].getTime(), t1 = dates[dates.length - 1].getTime();
+    const x = (d) => L + ((d.getTime() - t0) / (t1 - t0)) * (W - L - R), y = (v) => Tp + (1 - (v - lo) / (hi - lo)) * (H - Tp - B);
+    let g = "";
+    const stepY = (hi - lo) > 1200 ? 400 : 200;
+    for (let v = Math.ceil(lo / stepY) * stepY; v <= hi; v += stepY) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">$${v.toLocaleString("en-US")}</text>`;
+    const months = []; const d = new Date(Date.UTC(dates[0].getUTCFullYear(), dates[0].getUTCMonth() + 1, 1));
+    while (d.getTime() <= t1) { months.push(new Date(d)); d.setUTCMonth(d.getUTCMonth() + 2); }
+    months.forEach((m) => { g += `<text x="${x(m)}" y="${H - 10}" text-anchor="middle">${m.toLocaleString("en-US", { month: "short", timeZone: "UTC" })}${m.getUTCMonth() === 0 ? " ’" + String(m.getUTCFullYear()).slice(2) : ""}</text>`; });
+    const path = (arr) => arr.map((v, i) => `${i ? "L" : "M"}${x(dates[i]).toFixed(1)},${y(v).toFixed(1)}`).join("");
+    const area = path(M) + `L${x(dates[dates.length - 1]).toFixed(1)},${y(lo)}L${x(dates[0]).toFixed(1)},${y(lo)}Z`;
+    const endM = M[M.length - 1], endT = T[T.length - 1];
+    const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Median equity curve: limit orders end at $${Math.round(endM).toLocaleString("en-US")}, market orders at $${Math.round(endT).toLocaleString("en-US")}">
+      ${g}<line x1="${L}" x2="${W - R}" y1="${y(lo)}" y2="${y(lo)}" stroke="var(--rule)"/>
+      <path d="${area}" fill="var(--s1-wash)"/>
+      <path d="${path(T)}" fill="none" stroke="var(--s2)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="${path(M)}" fill="none" stroke="var(--s1)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="${x(dates[dates.length - 1])}" cy="${y(endM)}" r="4.5" fill="var(--s1)" stroke="var(--surface)" stroke-width="2"/>
+      <circle cx="${x(dates[dates.length - 1])}" cy="${y(endT)}" r="4.5" fill="var(--s2)" stroke="var(--surface)" stroke-width="2"/>
+      <text x="${x(dates[dates.length - 1]) + 10}" y="${y(endM) + 4}" style="fill:var(--ink);font-weight:600">$${Math.round(endM).toLocaleString("en-US")}</text>
+      <text x="${x(dates[dates.length - 1]) + 10}" y="${y(endT) + 4}" style="fill:var(--ink-2)">$${Math.round(endT).toLocaleString("en-US")}</text>
+      <line id="xh" x1="0" x2="0" y1="${Tp}" y2="${H - B}" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>
+      <rect id="hit" x="${L}" y="${Tp}" width="${W - L - R}" height="${H - Tp - B}" fill="transparent"/></svg>`;
+    el.insertAdjacentHTML("beforeend", svg);
+    const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; el.appendChild(tip);
+    const s = el.querySelector("svg"), hit = s.querySelector("#hit"), xh = s.querySelector("#xh");
+    function show(ev) {
+      const r = s.getBoundingClientRect(), px = ((ev.clientX - r.left) / r.width) * W;
+      const t = t0 + ((px - L) / (W - L - R)) * (t1 - t0);
+      let i = 0, best = Infinity; dates.forEach((d0, j) => { const dd = Math.abs(d0.getTime() - t); if (dd < best) { best = dd; i = j; } });
+      xh.setAttribute("x1", x(dates[i])); xh.setAttribute("x2", x(dates[i])); xh.setAttribute("visibility", "visible");
+      tip.innerHTML = `<b>${dates[i].toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })}</b>
+        <div class="row"><i style="background:var(--s1)"></i>Limit orders $${Math.round(M[i]).toLocaleString("en-US")}</div>
+        <div class="row"><i style="background:var(--s2)"></i>Market orders $${Math.round(T[i]).toLocaleString("en-US")}</div>`;
+      tip.hidden = false;
+      const er = el.getBoundingClientRect(); let lx = ev.clientX - er.left + 14; if (lx > er.width - 190) lx -= 210;
+      tip.style.left = lx + "px"; tip.style.top = (ev.clientY - er.top - 20) + "px";
+    }
+    hit.addEventListener("pointermove", show); hit.addEventListener("pointerleave", () => { tip.hidden = true; xh.setAttribute("visibility", "hidden"); });
+    // table twin (month ends)
+    const rows = []; let lastM = -1;
+    dates.forEach((d0, i) => { const nx = dates[i + 1]; if (!nx || nx.getUTCMonth() !== d0.getUTCMonth()) rows.push(i); });
+    $("eqtable").innerHTML = `<thead><tr><th>Date</th><th class="num">Limit orders</th><th class="num">Market orders</th></tr></thead><tbody>` +
+      rows.map((i) => `<tr><td>${dates[i].toISOString().slice(0, 10)}</td><td class="num">$${Math.round(M[i]).toLocaleString("en-US")}</td><td class="num">$${Math.round(T[i]).toLocaleString("en-US")}</td></tr>`).join("") + `</tbody>`;
+  })();
+
+  // monthly column chart (diverging around zero)
+  (function () {
+    const el = $("monthly"), v = F.monthly_returns, labs = F.months, n = v.length;
+    const W = 520, H = 230, L = 44, R = 8, Tp = 16, B = 34;
+    const mx = Math.max(...v.map(Math.abs)) * 1.15, lo = -Math.max(mx * 0.45, Math.abs(Math.min(...v)) * 1.2), hi = mx;
+    const y = (val) => Tp + (1 - (val - lo) / (hi - lo)) * (H - Tp - B), bw = Math.min(24, ((W - L - R) / n) * 0.62), step = (W - L - R) / n;
+    let g = "";
+    [lo, 0, hi / 2, hi].forEach((t) => { const tt = Math.round(t * 1000) / 10; g += `<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" stroke="${t === 0 ? "var(--rule)" : "var(--grid)"}"/><text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${tt > 0 ? "+" : ""}${tt.toFixed(1)}%</text>`; });
+    const bars = v.map((val, i) => { const cx = L + step * i + step / 2, y0 = y(0), y1 = y(val), h = Math.max(1, Math.abs(y1 - y0)), top = Math.min(y0, y1), r = 4;
+      const up = val >= 0, x0 = cx - bw / 2;
+      const d = up ? `M${x0},${y0} L${x0},${top + r} Q${x0},${top} ${x0 + r},${top} L${x0 + bw - r},${top} Q${x0 + bw},${top} ${x0 + bw},${top + r} L${x0 + bw},${y0} Z`
+                   : `M${x0},${y0} L${x0},${top + h - r} Q${x0},${top + h} ${x0 + r},${top + h} L${x0 + bw - r},${top + h} Q${x0 + bw},${top + h} ${x0 + bw},${top + h - r} L${x0 + bw},${y0} Z`;
+      return `<path d="${d}" fill="${up ? "var(--s1)" : "var(--neg)"}" data-i="${i}"/><rect x="${cx - step / 2}" y="${Tp}" width="${step}" height="${H - Tp - B}" fill="transparent" data-i="${i}"/>`; }).join("");
+    const xl = labs.map((l, i) => (i % 2 === 0 ? `<text x="${L + step * i + step / 2}" y="${H - 12}" text-anchor="middle">${l.slice(0, 3)}</text>` : "")).join("");
+    el.insertAdjacentHTML("beforeend", `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly returns: ${v.filter((a) => a > 0).length} of ${n} months positive">${g}${bars}${xl}</svg>`);
+    const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; el.appendChild(tip);
+    el.querySelectorAll("[data-i]").forEach((b) => { b.addEventListener("pointermove", (ev) => { const i = +b.dataset.i; tip.innerHTML = `<b>${labs[i]}</b><div class="row">${v[i] >= 0 ? "+" : "−"}${Math.abs(v[i] * 100).toFixed(2)}%</div>`; tip.hidden = false;
+      const er = el.getBoundingClientRect(); let lx = ev.clientX - er.left + 12; if (lx > er.width - 110) lx -= 130; tip.style.left = lx + "px"; tip.style.top = (ev.clientY - er.top - 16) + "px"; });
+      b.addEventListener("pointerleave", () => (tip.hidden = true)); });
+  })();
+
+  // category table
+  const catName = { geopolitics: "Geopolitics", finance: "Finance", politics: "Politics", crypto: "Crypto price", economics: "Economics", tech: "Tech", culture: "Culture", politics_election: "Elections" };
+  const cats = Object.entries(F.by_category).filter(([k, c]) => c.n >= 20).sort((a, b) => b[1].n - a[1].n);
+  $("cats").innerHTML = `<thead><tr><th>Category</th><th class="num">Trades</th><th class="num">Won</th><th class="num">Return / trade</th></tr></thead><tbody>` +
+    cats.map(([k, c]) => `<tr><td>${catName[k] || k}</td><td class="num">${c.n}</td><td class="num">${pct(c.win, 1)}</td><td class="num ${c.roi < 0 ? "neg" : ""}">${sgn(c.roi * 100, 2)}%</td></tr>`).join("") +
+    `<tr><td><span class="sub" style="margin:0">Multi-outcome events (excluded)</span></td><td class="num">${D.neh_negrisk.negrisk_n}</td><td class="num">96.6%</td><td class="num neg">${sgn(D.neh_negrisk.negrisk_roi * 100, 2)}%</td></tr></tbody>`;
+
+  // today
+  $("today").innerHTML = `<thead><tr><th class="num">Days left</th><th>Buy</th><th>Market</th><th class="num">Bid / ask</th><th class="num">Limit</th></tr></thead><tbody>` +
+    D.scanner_today.map((r) => `<tr><td class="num">${r.days_left}</td><td><strong style="color:var(--ink)">${esc(r.buy)}</strong></td><td>${esc(r.question)}<span class="sub">${catName[r.category] || r.category}</span></td>
+      <td class="num">${(r.bid * 100).toFixed(1)} / ${(r.ask * 100).toFixed(1)}¢</td><td class="num">${(r.limit_price * 100).toFixed(1)}¢</td></tr>`).join("") + `</tbody>`;
+
+  // fees
+  $("fees").innerHTML = `<thead><tr><th>Category</th><th class="num">Rate</th><th class="num">Old rate</th><th class="num">Taker cost on a 96¢ buy</th></tr></thead><tbody>` +
+    [["Geopolitics", "0", "0", "0.00%"], ["Politics (non-election), economics, culture, weather, mentions, most crypto", "0.01", "0.04–0.07", "0.04%"], ["Sports, finance, tech, election politics, BTC 5/15-min up/down, other", "0.05", "0.04–0.07", "0.20%"]]
+    .map((r) => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td><td class="num">${r[3]}</td></tr>`).join("") + `</tbody>`;
+
+  // risks
+  const risks = [
+    "<strong>Something does happen.</strong> About 2 in 100 trades lose everything; in December 2025 it was 14 in 100 as several year-end deadlines broke at once. Small, equal positions are what keep that a dent instead of a crater.",
+    "<strong>Correlated stories.</strong> A war or crisis can flip many “No” bets together (Iran in 2026). Cap any single story at about 5% of the account.",
+    "<strong>Rule and resolution risk.</strong> Markets resolve on their exact wording and named source, sometimes after disputes. Read the rules; skip vague ones.",
+    "<strong>Fills.</strong> The 9% figure assumes your limit orders fill near the midpoint. If you always pay the ask, expect closer to 6%.",
+    "<strong>One year of data.</strong> The edge was positive in both halves of the year, but it is small. Re-run the backtest every quarter (the code is included).",
+    "<strong>Stop if</strong> the account falls 6% from its peak (2.6× the worst drawdown in testing) or the last 100 trades average below −4% (the worst stretch in testing was −3.5%). Either would mean the market has changed; pause and re-check before continuing.",
+  ];
+  $("risks").innerHTML = risks.map((r) => `<li>${r}</li>`).join("");
+
+  // upgrades
+  $("more").innerHTML = [
+    ["Resolution harvesting (manual)", "The bond buyers put about a third of their money into markets that are already decided but not yet resolved: a deadline has passed, a game is over, data is out. They buy at ~99–99.5¢ after checking the official source, and won 99–100%. Done blindly from prices it loses money (98.8% won vs 99.2% needed), so the check is the edge. Avoid weather markets here; station readings caused most surprises."],
+    ["Liquidity rewards (needs a bot)", `Market makers are the second-largest group of steady climbers; rewards and rebates are a median 25% of their profit. Right now ${D.rewards.markets.toLocaleString("en-US")} markets pay about $${Math.round(D.rewards.per_day / 1000)}k a day to resting orders near the midpoint. This program is unchanged on 20 November, but you need software that keeps quotes two-sided and pulls them fast on news.`],
+  ].map(([h, t]) => `<div style="display:grid;gap:8px;border-top:1px solid var(--rule);padding-top:14px"><h3>${h}</h3><p style="color:var(--ink-2);font-size:15px">${t}</p></div>`).join("");
+
+  // method
+  $("method").innerHTML = [
+    "<p><strong>Data.</strong> Polymarket's public Data API v2 (leaderboards, daily P&amp;L series, positions, trades, activity), Gamma (market metadata and tags) and the order book API (hourly and daily price history). 149,451 P&amp;L histories, 956,239 positions of the 543, 491,471 market records, and price paths for 132,586 resolved markets plus 6,616 deadline markets.</p>",
+    "<p><strong>“Beautiful chart”.</strong> Over the last 365 days: made $3k+, climbed for 150+ days, traded in the last 30, straight-line fit R² ≥ 0.8, at least 70% of months up, no month above 40% of profit, drawdown ≤ 25% of profit, five best days ≤ 50%, every third of the climb adding 10%+, and still up over the last 90 days. Each cut was checked by eye on chart grids.</p>",
+    "<p><strong>No look-ahead.</strong> Backtest signals use only prices and the scheduled end date known at the time. Persistence and copy tests choose wallets on the first half of the year and measure the second half. Fees use the schedule that starts 20 Nov 2026.</p>",
+  ].join("");
+})();
+</script>
